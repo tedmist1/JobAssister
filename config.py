@@ -1,0 +1,27 @@
+import os
+
+KEYWORDS = [
+    "AWS", "Terraform", "Cloud", "DevOps", "Python",
+    "Infrastructure", "Landing Zone", "Control Tower"
+]
+
+LOCATIONS = ["San Diego", "Remote", "Remote-US"]
+
+PAY_FILTER = {
+    "contract_min": 90,     # $90/hr minimum for contract roles
+    "fulltime_min": 60,     # $60/hr equivalent for full-time roles
+}
+
+PREFERRED_AGENCIES = [
+    "CRB Workforce", "Insight Global", "Motion Recruitment",
+    "TEKsystems", "Apex Systems", "Randstad", "Robert Half"
+]
+
+DAYS_BACK = 7  # Only consider jobs posted in last N days
+
+# Discord webhook is stored as an environment variable
+import os
+DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
+
+# File for tracking previously sent jobs
+SENT_JOBS_FILE = "sent_jobs.json"
