@@ -8,12 +8,15 @@ def send_file_to_discord(filename, content):
         print("No webhook set.")
         return
 
+    MENTION_USER_ID = os.getenv("DISCORD_USER_ID")
     files = {
         "file": (filename, content.encode("utf-8"), "text/markdown")
     }
     data = {
-        "content": f"Weekly job report generated: `{filename}`"
+        "content": f"<@{MENTION_USER_ID}> Weekly job report generated: `{filename}`"
     }
+    
+    143599694810054657
 
     resp = requests.post(DISCORD_WEBHOOK_URL, data=data, files=files, timeout=30)
     if resp.status_code >= 300:
