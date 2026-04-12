@@ -23,35 +23,35 @@ def query_adzuna(keywords, locations):
     if not APP_ID or not APP_KEY:
             return []
 
-        results = []
-        base_url = "https://api.adzuna.com/v1/api/jobs/us/search/1"
+    results = []
+    base_url = "https://api.adzuna.com/v1/api/jobs/us/search/1"
 
-        for kw in KEYWORDS:
-            for loc in LOCATIONS:
-                params = {
-                    "app_id": APP_ID,
-                    "app_key": APP_KEY,
-                    "results_per_page": 50,
-                    "what": kw,
-                    "where": loc,
-                    "content-type": "application/json"
-                }
-                r = requests.get(base_url, params=params, timeout=15)
-                if r.status_code != 200:
-                    continue
+    for kw in KEYWORDS:
+        for loc in LOCATIONS:
+            params = {
+                "app_id": APP_ID,
+                "app_key": APP_KEY,
+                "results_per_page": 50,
+                "what": kw,
+                "where": loc,
+                "content-type": "application/json"
+            }
+            r = requests.get(base_url, params=params, timeout=15)
+            if r.status_code != 200:
+                continue
 
-                for job in r.json().get("results", []):
-                    results.append(normalize_job(
-                        title=job.get("title"),
-                        company=job.get("company", {}).get("display_name"),
-                        location=job.get("location", {}).get("display_name"),
-                        pay=job.get("salary_min"),
-                        description=job.get("description"),
-                        link=job.get("redirect_url"),
-                        source="Adzuna",
-                        posted_at=job.get("created")
-                    ))
-        return results
+            for job in r.json().get("results", []):
+                results.append(normalize_job(
+                    title=job.get("title"),
+                    company=job.get("company", {}).get("display_name"),
+                    location=job.get("location", {}).get("display_name"),
+                    pay=job.get("salary_min"),
+                    description=job.get("description"),
+                    link=job.get("redirect_url"),
+                    source="Adzuna",
+                    posted_at=job.get("created")
+                ))
+    return results
 
 # =========================
 # USAJOBS

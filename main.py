@@ -1,5 +1,3 @@
-# main.py
-
 from datetime import datetime
 from job_sources import get_all_jobs
 from filtering import filter_jobs, is_preferred_agency
