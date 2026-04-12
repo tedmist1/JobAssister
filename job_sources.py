@@ -17,7 +17,7 @@ def normalize_job(title, company, location, pay, description, link, source, post
         "posted_at": posted_at
     }
 
-def query_adzuna(keywords, locations):
+def query_adzuna():
     APP_ID = os.getenv("ADZUNA_APP_ID")
     APP_KEY = os.getenv("ADZUNA_APP_KEY")
     if not APP_ID or not APP_KEY:
