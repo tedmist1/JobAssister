@@ -1,4 +1,3 @@
-
 import os
 import requests
 from utils import parse_date

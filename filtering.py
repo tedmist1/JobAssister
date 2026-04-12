@@ -1,5 +1,3 @@
-# filtering.py
-
 from config import KEYWORDS, LOCATIONS, PAY_FILTER, PREFERRED_AGENCIES
 from utils import is_recent
 

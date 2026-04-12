@@ -1,7 +1,6 @@
-# discord_notify.py
-
 import requests
 from config import DISCORD_WEBHOOK_URL
+import os
 
 def send_file_to_discord(filename, content):
     if not DISCORD_WEBHOOK_URL:
@@ -16,7 +15,7 @@ def send_file_to_discord(filename, content):
         "content": f"<@{MENTION_USER_ID}> Weekly job report generated: `{filename}`"
     }
     
-    143599694810054657
+    
 
     resp = requests.post(DISCORD_WEBHOOK_URL, data=data, files=files, timeout=30)
     if resp.status_code >= 300:
