@@ -2,7 +2,7 @@ import os
 import requests
 from utils import parse_date, extract_years_experience
 
-from config import KEYWORDS, LOCATIONS
+from config import KEYWORDS, LOCATIONS, GREENHOUSE_COMPANIES, LEVER_COMPANIES
 
 def normalize_job(title, company, location, pay, description, link, source, posted_at, id):
 
@@ -65,10 +65,10 @@ def query_adzuna():
                         pass
 
                 # DEBUG PRINTS
-                print("ID:", job.get("id"))
-                print("SNIPPET:", job.get("description"))
-                print("FULL:", (full_description or "")[:400])
-                print("LEN FULL:", len(full_description or ""))
+                # print("ID:", job.get("id"))
+                # print("SNIPPET:", job.get("description"))
+                # print("FULL:", (full_description or "")[:400])
+                # print("LEN FULL:", len(full_description or ""))
 
 
                 # fall back to snippet if detail failed
