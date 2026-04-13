@@ -39,17 +39,21 @@ def query_adzuna():
             if r.status_code != 200:
                 continue
 
+            
             for job in r.json().get("results", []):
+
+                job_description = job.get("description")
+
                 results.append(normalize_job(
                     title=job.get("title"),
                     company=job.get("company", {}).get("display_name"),
                     location=job.get("location", {}).get("display_name"),
                     pay=job.get("salary_min"),
-                    description=job.get("description"),
+                    description=job_description,
                     link=job.get("redirect_url"),
                     source="Adzuna",
                     posted_at=job.get("created"),
-                    experience=extract_years_experience(description)
+                    experience=extract_years_experience(job_description)
                 ))
     return results
 
