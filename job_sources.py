@@ -45,12 +45,9 @@ def query_adzuna():
                 continue
 
             for job in r.json().get("results", []):
-                # -------------------------
-                # Extract job ID for detail call
-                # -------------------------
-                job_id = job.get("id") or job.get("adref")
-                full_description = None
+                job_id = job.get("id")  # <-- only this
 
+                full_description = None
                 if job_id:
                     detail_params = {
                         "app_id": APP_ID,
@@ -64,25 +61,24 @@ def query_adzuna():
                         if detail_resp.status_code == 200:
                             full_description = detail_resp.json().get("description")
                     except Exception:
-                        pass  # fallback to snippet
+                        pass
 
-                # -------------------------
-                # Use full description if available, else snippet
-                # -------------------------
+                # DEBUG PRINTS
+                print("ID:", job.get("id"))
+                print("SNIPPET:", job.get("description"))
+                print("FULL:", (full_description or "")[:400])
+                print("LEN FULL:", len(full_description or ""))
+
+
+                # fall back to snippet if detail failed
                 description = full_description or job.get("description") or ""
 
-                # -------------------------
-                # Clean location (city only)
-                # -------------------------
                 location = job.get("location", {}).get("display_name")
                 if location and "," in location:
                     location = location.split(",")[0].strip()
 
                 link = job.get("redirect_url")
 
-                # -------------------------
-                # Normalize job object
-                # -------------------------
                 results.append(normalize_job(
                     title=job.get("title"),
                     company=job.get("company", {}).get("display_name"),
@@ -95,6 +91,7 @@ def query_adzuna():
                 ))
 
     return results
+
 
 
 # =========================
