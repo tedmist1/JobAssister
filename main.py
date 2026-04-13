@@ -55,10 +55,23 @@ def format_job(job, highlight=False):
 
     return out
 
+def dedupe_jobs(jobs):
+    seen = set()
+    unique = []
+
+    for job in jobs:
+        key = job.get("link")  # stable unique identifier
+        if key and key not in seen:
+            seen.add(key)
+            unique.append(job)
+
+    return unique
+
 def main():
     sent_ids = load_sent_jobs()
 
     jobs = get_all_jobs()
+    jobs = dedupe_jobs(jobs)
     new_jobs = filter_jobs(jobs, sent_ids)
 
     for job in new_jobs:
