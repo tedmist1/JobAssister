@@ -4,7 +4,7 @@ from utils import parse_date, extract_years_experience
 
 from config import KEYWORDS, LOCATIONS
 
-def normalize_job(title, company, location, pay, description, link, source, posted_at):
+def normalize_job(title, company, location, pay, description, link, source, posted_at, experience):
     return {
         "title": title,
         "company": company,
@@ -13,7 +13,8 @@ def normalize_job(title, company, location, pay, description, link, source, post
         "description": description,
         "link": link,
         "source": source,
-        "posted_at": posted_at
+        "posted_at": posted_at,
+        "experience": experience
     }
 
 def query_adzuna():
