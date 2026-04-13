@@ -49,7 +49,10 @@ def format_job(job, highlight=False):
         out.append(f"- **Link:** {link}")
     if job.get("experience"):
         out.append(f"- **Experience:** {job['experience']}")
-        
+    
+    if job.get("description"):
+        out.append(f"- **Description:** {job['description']}")
+
     return out
 
 def main():

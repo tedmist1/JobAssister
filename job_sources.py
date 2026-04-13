@@ -78,12 +78,7 @@ def query_adzuna():
                 if location and "," in location:
                     location = location.split(",")[0].strip()
 
-                # -------------------------
-                # Truncate long URLs
-                # -------------------------
                 link = job.get("redirect_url")
-                if link and len(link) > 120:
-                    link = link[:120] + "..."
 
                 # -------------------------
                 # Normalize job object
