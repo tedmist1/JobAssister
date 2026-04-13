@@ -43,7 +43,7 @@ def extract_years_experience(text):
         return None
 
     # catches: "3+ years", "3 years", "3 yrs", "3-5 years"
-    match = re.search(r'(\d+)\s*(\+|to|-)?\s*(\d+)?\s*(years|yrs)', text.lower())
+    match = re.search(r'(\d+)\s*(\+|to|-)?\s*(\d+)?\s*(years|yrs)(\sof experience)?', text.lower())
     if match:
         return match.group(0)
     return 

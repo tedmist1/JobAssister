@@ -4,7 +4,9 @@ from utils import parse_date, extract_years_experience
 
 from config import KEYWORDS, LOCATIONS
 
-def normalize_job(title, company, location, pay, description, link, source, posted_at, experience):
+def normalize_job(title, company, location, pay, description, link, source, posted_at):
+
+    experience = extract_years_experience(description)
     return {
         "title": title,
         "company": company,
@@ -42,20 +44,17 @@ def query_adzuna():
 
             
             for job in r.json().get("results", []):
-
-                job_description = job.get("description")
-
                 results.append(normalize_job(
                     title=job.get("title"),
                     company=job.get("company", {}).get("display_name"),
                     location=job.get("location", {}).get("display_name"),
                     pay=job.get("salary_min"),
-                    description=job_description,
+                    description=job.get("description"),
                     link=job.get("redirect_url"),
                     source="Adzuna",
-                    posted_at=job.get("created"),
-                    experience=extract_years_experience(job_description)
+                    posted_at=job.get("created")
                 ))
+                print("DESC: ", job.get("description"))
     return results
 
 # =========================
@@ -85,14 +84,12 @@ def query_usajobs():
         for job in r.json().get("SearchResult", {}).get("SearchResultItems", []):
             item = job.get("MatchedObjectDescriptor", {})
             pay_info = item.get("PositionRemuneration", [{}])[0]
-
-            job_description=item.get("UserArea", {}).get("Details", {}).get("JobSummary")
             results.append(normalize_job(
                 title=item.get("PositionTitle"),
                 company=item.get("OrganizationName"),
                 location=item.get("PositionLocationDisplay"),
                 pay=pay_info.get("MinimumRange"),
-                description=job_description,
+                description=item.get("UserArea", {}).get("Details", {}).get("JobSummary"),
                 link=item.get("ApplyURI", [""])[0],
                 source="USAJobs",
                 posted_at=item.get("PublicationStartDate"),
