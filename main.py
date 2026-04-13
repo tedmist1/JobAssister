@@ -60,7 +60,7 @@ def dedupe_jobs(jobs):
     unique = []
 
     for job in jobs:
-        key = job.get("link")  # stable unique identifier
+        key = job.get("id")  or job.get("link") # stable unique identifier
         if key and key not in seen:
             seen.add(key)
             unique.append(job)

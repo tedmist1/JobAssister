@@ -4,7 +4,7 @@ from utils import parse_date, extract_years_experience
 
 from config import KEYWORDS, LOCATIONS
 
-def normalize_job(title, company, location, pay, description, link, source, posted_at):
+def normalize_job(title, company, location, pay, description, link, source, posted_at, job_id):
 
     experience = extract_years_experience(description)
     return {
@@ -16,7 +16,8 @@ def normalize_job(title, company, location, pay, description, link, source, post
         "link": link,
         "source": source,
         "posted_at": posted_at,
-        "experience": experience
+        "experience": experience,
+        "id": job_id
     }
 
 def query_adzuna():
@@ -88,6 +89,7 @@ def query_adzuna():
                     link=link,
                     source="Adzuna",
                     posted_at=job.get("created")
+                    id=job.get("MatchedObhectId")
                 ))
 
     return results
