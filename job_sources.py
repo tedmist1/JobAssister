@@ -88,7 +88,7 @@ def query_adzuna():
                     description=description,
                     link=link,
                     source="Adzuna",
-                    posted_at=job.get("created")
+                    posted_at=job.get("created"),
                     id=job.get("MatchedObhectId")
                 ))
 
