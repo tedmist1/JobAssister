@@ -86,16 +86,17 @@ def query_usajobs():
             item = job.get("MatchedObjectDescriptor", {})
             pay_info = item.get("PositionRemuneration", [{}])[0]
 
+            job_description=item.get("UserArea", {}).get("Details", {}).get("JobSummary")
             results.append(normalize_job(
                 title=item.get("PositionTitle"),
                 company=item.get("OrganizationName"),
                 location=item.get("PositionLocationDisplay"),
                 pay=pay_info.get("MinimumRange"),
-                description=item.get("UserArea", {}).get("Details", {}).get("JobSummary"),
+                description=job_description,
                 link=item.get("ApplyURI", [""])[0],
                 source="USAJobs",
                 posted_at=item.get("PublicationStartDate"),
-                experience=extract_years_experience(description)
+                experience=extract_years_experience(job_description)
             ))
     return results
 
