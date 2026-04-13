@@ -1,4 +1,5 @@
 import json
+import re
 from datetime import datetime, timedelta
 from pathlib import Path
 from config import SENT_JOBS_FILE, DAYS_BACK
@@ -36,3 +37,13 @@ def is_recent(job):
     if not dt:
         return True
     return dt >= datetime.utcnow() - timedelta(days=DAYS_BACK)
+
+def extract_years_experience(text):
+    if not text:
+        return None
+
+    # catches: "3+ years", "3 years", "3 yrs", "3-5 years"
+    match = re.search(r'(\d+)\s*(\+|to|-)?\s*(\d+)?\s*(years|yrs)', text.lower())
+    if match:
+        return match.group(0)
+    return 

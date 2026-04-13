@@ -8,8 +8,8 @@ KEYWORDS = [
 LOCATIONS = ["San Diego", "Remote", "Remote-US"]
 
 PAY_FILTER = {
-    "contract_min": 90,     # $90/hr minimum for contract roles
-    "fulltime_min": 60,     # $60/hr equivalent for full-time roles
+    "hourly_minimum": 60,     # $90/hr minimum for contract roles
+    "salary_minimum": 80000
 }
 
 PREFERRED_AGENCIES = [

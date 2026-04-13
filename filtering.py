@@ -17,7 +17,12 @@ def matches_pay(job):
         pay_val = float(pay)
     except Exception:
         return False
-    return pay_val >= PAY_FILTER["contract_min"] or pay_val >= PAY_FILTER["fulltime_min"]
+
+    # If the pay is more than $500, assume salary. Else hourly
+    if pay_val > 500:
+        return pay_val >= PAY_FILTER["salary_minimum"]
+    
+    return pay_val >= PAY_FILTER["hourly_minimum"]
 
 def is_preferred_agency(job):
     company = (job.get("company") or "").lower()

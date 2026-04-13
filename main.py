@@ -47,6 +47,9 @@ def format_job(job, highlight=False):
     ]
     if link:
         out.append(f"- **Link:** {link}")
+    if job.get("experience"):
+        out.append(f"- **Experience:** {job['experience']}")
+        
     return out
 
 def main():

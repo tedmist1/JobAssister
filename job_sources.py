@@ -1,6 +1,6 @@
 import os
 import requests
-from utils import parse_date
+from utils import parse_date, extract_years_experience
 
 from config import KEYWORDS, LOCATIONS
 
@@ -48,7 +48,8 @@ def query_adzuna():
                     description=job.get("description"),
                     link=job.get("redirect_url"),
                     source="Adzuna",
-                    posted_at=job.get("created")
+                    posted_at=job.get("created"),
+                    experience=extract_years_experience(description)
                 ))
     return results
 
@@ -88,7 +89,8 @@ def query_usajobs():
                 description=item.get("UserArea", {}).get("Details", {}).get("JobSummary"),
                 link=item.get("ApplyURI", [""])[0],
                 source="USAJobs",
-                posted_at=item.get("PublicationStartDate")
+                posted_at=item.get("PublicationStartDate"),
+                experience=extract_years_experience(description)
             ))
     return results
 
