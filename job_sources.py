@@ -136,20 +136,138 @@ def query_usajobs():
             ))
     return results
 
+
+def query_indeed():
+    results = []
+    base_url = "https://indeed-indeed.p.rapidapi.com/search"  # unofficial API
+
+    headers = {
+        "X-RapidAPI-Key": os.getenv("RAPIDAPI_KEY"),
+        "X-RapidAPI-Host": "indeed-indeed.p.rapidapi.com"
+    }
+
+    for kw in KEYWORDS:
+        for loc in LOCATIONS:
+            params = {
+                "query": kw,
+                "location": loc,
+                "page": 1
+            }
+
+            r = requests.get(base_url, headers=headers, params=params, timeout=15)
+            if r.status_code != 200:
+                continue
+
+            for job in r.json().get("data", []):
+                description = job.get("description") or ""
+                job_id = job.get("jobkey")
+
+                location = job.get("location")
+                if location and "," in location:
+                    location = location.split(",")[0].strip()
+
+                results.append(normalize_job(
+                    id=job_id,
+                    title=job.get("title"),
+                    company=job.get("company"),
+                    location=location,
+                    pay=job.get("salary"),
+                    description=description,
+                    link=job.get("url"),
+                    source="Indeed",
+                    posted_at=job.get("date"),
+                    experience=extract_years_experience(description)
+                ))
+
+    return results
+
+def query_greenhouse():
+    results = []
+
+    for company in GREENHOUSE_COMPANIES:
+        url = f"https://boards-api.greenhouse.io/v1/boards/{company}/jobs"
+
+        try:
+            r = requests.get(url, timeout=15)
+            if r.status_code != 200:
+                continue
+        except:
+            continue
+
+        for job in r.json().get("jobs", []):
+            description = job.get("content") or ""
+            job_id = job.get("id")
+
+            location = job.get("location", {}).get("name")
+            if location and "," in location:
+                location = location.split(",")[0].strip()
+
+            results.append(normalize_job(
+                id=job_id,
+                title=job.get("title"),
+                company=company.capitalize(),
+                location=location,
+                pay=None,
+                description=description,
+                link=job.get("absolute_url"),
+                source="Greenhouse",
+                posted_at=job.get("updated_at"),
+                experience=extract_years_experience(description)
+            ))
+
+    return results
+
+def query_lever():
+    results = []
+
+    for company in LEVER_COMPANIES:
+        url = f"https://api.lever.co/v0/postings/{company}?mode=json"
+
+        try:
+            r = requests.get(url, timeout=15)
+            if r.status_code != 200:
+                continue
+        except:
+            continue
+
+        for job in r.json():
+            description = job.get("description") or ""
+            job_id = job.get("id")
+
+            location = job.get("categories", {}).get("location")
+            if location and "," in location:
+                location = location.split(",")[0].strip()
+
+            results.append(normalize_job(
+                id=job_id,
+                title=job.get("text"),
+                company=company.capitalize(),
+                location=location,
+                pay=None,
+                description=description,
+                link=job.get("hostedUrl"),
+                source="Lever",
+                posted_at=job.get("createdAt"),
+                experience=extract_years_experience(description)
+            ))
+
+    return results
+
+
+def query_linkedin_proxy():
+    # LinkedIn jobs come from ATS systems
+    return query_greenhouse() + query_lever()
+
+
 # =========================
 # STUBS FOR FUTURE SOURCES
 # =========================
 
-def query_ziprecruiter():
-    return []
-
-def query_dice():
-    return []
 
 def get_all_jobs():
     jobs = []
     jobs += query_adzuna()
     jobs += query_usajobs()
-    jobs += query_ziprecruiter()
-    jobs += query_dice()
+    jobs += query_linkedin_proxy()
+    jobs += query_indeed()
     return jobs

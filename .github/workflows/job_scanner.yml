@@ -28,4 +28,5 @@ jobs:
           USAJOBS_API_KEY: ${{ secrets.USAJOBS_API_KEY }}
           USAJOBS_EMAIL: ${{ secrets.USAJOBS_EMAIL }}
           DISCORD_USER_ID: ${{ secrets.DISCORD_USER_ID }} 
+          RAPIDAPI_KEY : ${{ secrets.RAPIDAPI_KEY}}
         run: python main.py

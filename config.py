@@ -25,3 +25,26 @@ DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
 
 # File for tracking previously sent jobs
 SENT_JOBS_FILE = "sent_jobs.json"
+
+
+GREENHOUSE_COMPANIES = [
+    "twilio",
+    "stripe",
+    "datadog",
+    "snowflake",
+    "cloudflare",
+    "hashicorp",
+    "aws",
+    "microsoft",
+    "google",
+]
+
+LEVER_COMPANIES = [
+    "netflix",
+    "robinhood",
+    "brex",
+    "ramp",
+    "openai",
+    "scaleai",
+    "databricks",
+]

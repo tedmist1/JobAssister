@@ -43,3 +43,16 @@ def filter_jobs(jobs, sent_ids):
             continue
         filtered.append(job)
     return filtered
+
+
+def posted_within_7_days(job):
+    posted = job.get("posted_at")
+    if not posted:
+        return False
+
+    try:
+        dt = datetime.fromisoformat(posted.replace("Z", "+00:00"))
+    except:
+        return False
+
+    return dt >= datetime.utcnow() - timedelta(days=7)
