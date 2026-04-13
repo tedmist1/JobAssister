@@ -211,8 +211,7 @@ def query_greenhouse():
                 description=description,
                 link=job.get("absolute_url"),
                 source="Greenhouse",
-                posted_at=job.get("updated_at"),
-                experience=extract_years_experience(description)
+                posted_at=job.get("updated_at")
             ))
 
     return results
@@ -247,8 +246,7 @@ def query_lever():
                 description=description,
                 link=job.get("hostedUrl"),
                 source="Lever",
-                posted_at=job.get("createdAt"),
-                experience=extract_years_experience(description)
+                posted_at=job.get("createdAt")
             ))
 
     return results
