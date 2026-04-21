@@ -264,8 +264,21 @@ def query_linkedin_proxy():
 
 def get_all_jobs():
     jobs = []
-    jobs += query_adzuna()
-    jobs += query_usajobs()
-    jobs += query_linkedin_proxy()
-    jobs += query_indeed()
+    
+    adz = query_adzuna()
+    usa = query_usajobs()
+    lin = query_linkedin_proxy()
+    ind = query_indeed()
+
+
+    jobs += adz
+    jobs += usa
+    jobs += lin
+    jobs += ind
+
+    print("Adzuna:", len(adz))
+    print("USAJobs:", len(usa))
+    print("Indeed:", len(ind))
+    print("LinkedIn Proxy:", len(lin))
+    
     return jobs

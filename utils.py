@@ -1,6 +1,6 @@
 import json
 import re
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from config import SENT_JOBS_FILE, DAYS_BACK
 
@@ -32,11 +32,15 @@ def parse_date(date_str):
 def is_recent(job):
     posted = job.get("posted_at")
     if not posted:
-        return True
-    dt = parse_date(posted)
-    if not dt:
-        return True
-    return dt >= datetime.utcnow() - timedelta(days=DAYS_BACK)
+        return False
+
+    try:
+        dt = datetime.fromisoformat(posted.replace("Z", "+00:00"))
+    except:
+        return False
+
+    now = datetime.now(timezone.utc)
+    return dt >= now - timedelta(days=DAYS_BACK)
 
 def extract_years_experience(text):
     if not text:

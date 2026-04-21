@@ -3,6 +3,10 @@ from job_sources import get_all_jobs
 from filtering import filter_jobs, is_preferred_agency
 from utils import load_sent_jobs, save_sent_jobs, job_id
 from discord_notify import send_file_to_discord
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 def build_markdown(jobs):
     today = datetime.utcnow().strftime("%Y-%m-%d")
@@ -68,11 +72,35 @@ def dedupe_jobs(jobs):
     return unique
 
 def main():
+
     sent_ids = load_sent_jobs()
 
     jobs = get_all_jobs()
     jobs = dedupe_jobs(jobs)
+
+    # DEBUG: Write all jobs to a markdown file before filtering
+    debug_md = ["# ALL RAW JOBS (Before Filtering)\n"]
+
+    for job in jobs:
+        debug_md.append(f"## {job.get('title')}")
+        debug_md.append(f"- **Source:** {job.get('source')}")
+        debug_md.append(f"- **Company:** {job.get('company')}")
+        debug_md.append(f"- **Location:** {job.get('location')}")
+        debug_md.append(f"- **Posted:** {job.get('posted_at')}")
+        debug_md.append(f"- **Experience:** {job.get('experience')}")
+        debug_md.append(f"- **Link:** {job.get('link')}")
+        debug_md.append(f"\n**Description:**\n{job.get('description')[:500]}...\n")
+        debug_md.append("---\n")
+
+    with open("ALL_JOBS_DEBUG.md", "w", encoding="utf-8") as f:
+        f.write("\n".join(debug_md))
+
+    
     new_jobs = filter_jobs(jobs, sent_ids)
+
+    # DEBUG: counts after filtering
+    # filtered_counts = Counter(job.get("source") for job in new_jobs)
+    # print("Filtered source counts:", filtered_counts)
 
     for job in new_jobs:
         sent_ids.add(job_id(job))

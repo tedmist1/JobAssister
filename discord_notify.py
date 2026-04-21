@@ -1,6 +1,7 @@
 import requests
-from config import DISCORD_WEBHOOK_URL
 import os
+from config import DISCORD_WEBHOOK_URL
+
 
 def send_file_to_discord(filename, content):
     if not DISCORD_WEBHOOK_URL:
