@@ -21,7 +21,7 @@ jobs:
         run: pip install requests
 
       - name: Install dotenv (needed for local testing)
-        run: pip instlal python-dotenv
+        run: pip install python-dotenv
 
       - name: Run job scanner
         env:
