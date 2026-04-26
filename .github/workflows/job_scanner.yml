@@ -20,6 +20,9 @@ jobs:
       - name: Install dependencies
         run: pip install requests
 
+      - name: Install dotenv (needed for local testing)
+        run: pip instlal python-dotenv
+
       - name: Run job scanner
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
