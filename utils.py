@@ -39,9 +39,12 @@ def is_recent(job):
     except:
         return False
 
-    now = datetime.now(timezone.utc)
+    # Make dt naive so it matches datetime.utcnow()
     dt = dt.replace(tzinfo=None)
+
+    now = datetime.utcnow()
     return dt >= now - timedelta(days=DAYS_BACK)
+
 
 def extract_years_experience(text):
     if not text:
