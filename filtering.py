@@ -58,4 +58,4 @@ def posted_within_7_days(job):
     # Strip timezone → make dt naive
     dt = dt.replace(tzinfo=None)
 
-    return dt >= datetime.utcnow() - timedelta(days=7
+    return dt >= datetime.utcnow() - timedelta(days=7)
